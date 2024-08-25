@@ -2,14 +2,19 @@ import { useState, useEffect } from 'react'
 import Blogs from './components/Blogs'
 import LoginForm from './components/LoginForm'
 import CreateBlog from './components/CreateBlog'
+import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginServices from './services/login'
+
 
 
 const App = () => {
   
   const [user, setUser] = useState(null)
   const [blogs,setBlogs] = useState([])
+  const [errorMsg,setErrorMsg] = useState(null)
+  const [msg,setMsg] = useState(null)
+
 
 
   useEffect(() => {
@@ -21,6 +26,44 @@ const App = () => {
     }
   },[])
 
+  useEffect(() => { //this is not async do need to use then return promoise
+
+    blogService.getAll().then((blogs)=>{setBlogs(blogs)})
+    
+  },[user])
+
+
+  useEffect(()=>{
+
+    //anytime msd
+    setTimeout( () => {
+      setMsg(null)
+    },1500)
+
+  },[msg])
+
+  useEffect(()=>{
+
+    setTimeout(() => {
+      setErrorMsg(null)
+    },1500)
+
+  },[errorMsg])
+  
+  const notify=(msg,isError) => {
+
+    if(isError){
+      setErrorMsg(msg)
+    }else{
+      setMsg(msg)
+    }
+
+  }
+
+  const refresh = () => {
+    blogService.getAll().then((blogs)=>{setBlogs(blogs)})
+  }
+
   const loginAtempt = async (username, password) => {
 
       //if success populate user
@@ -30,8 +73,10 @@ const App = () => {
         setUser(user)
         window.localStorage.setItem('user',JSON.stringify(user))
         blogService.setToken(user.token)
+        setMsg(`Welcome back ${user.name}`)
       }catch (exception){
         console.log('invalid credentials')
+        setErrorMsg('wrong username or password')
         setUser(null)
        
       }
@@ -43,70 +88,23 @@ const App = () => {
       setUser(null)
       blogService.setToken(null)
       window.localStorage.removeItem('user')
+      setMsg('Logout Succesfull')
     }
 
   }
+
 
 
 
   return (
     <div>
+      <h1>Blogs</h1>
+      <Notification message={msg} errorMsg={errorMsg}/>
       <LoginForm onLogin={loginAtempt} onLogout={logout} user={user}/>
-      <CreateBlog user={user} />
-      <Blogs user={user} />
+      <CreateBlog user={user} refresh={refresh} onNotify={notify}/>
+      <Blogs user={user} blogs={blogs}/>
     </div>
   )
-}
-
-const CreateBlogs = (props) => {
-
-  const blogTemplate ={
-    title : null,
-    author : null,
-    url: null
-    
-  }
-
-  const [blog,setBlog]=useState(blogTemplate)
-
-  const requestCreate= (e) => {
-    e.preventDefault()
-
-    try {
-      const data = blogService.create(blog)
-
-    }catch(exception) {
-
-      console.log(exception)
-
-    }
-    
-    console.log(blog)
-  }
-
-  const inputHandel = (e) => {
-    
-    const {name, value} = e.target
-    setBlog({...blog,[name] : value})
-    
-  }
-
-  return props.user !== null ?  (
-    <div>
-      
-      <h1>create New</h1>
-      <form onSubmit={requestCreate} onChange={inputHandel}>
-        <label>Title :</label><input type = 'text' name='title'></input><br />
-        <label>Author :</label>
-        <input type = 'text' name='author'></input><br />
-        <label>url :</label>
-        <input type = 'text' name='url'></input><br />
-        <button type='submit'>create</button>
-      </form>
-
-    </div>
-  ) : <></>
-
 }
 
 

@@ -12,11 +12,17 @@ const CreateBlog = (props) => {
   
     const [blog,setBlog]=useState(blogTemplate)
   
-    const requestCreate= (e) => {
+    const requestCreate= async (e) => {
       e.preventDefault()
   
       try {
-        const data = blogService.create(blog)
+        const res = await blogService.create(blog)
+        if(res.status===201){
+          props.onNotify(`a new blog ${blog.title} by ${blog.author}`,false)
+          props.refresh()
+        }else{
+          props.onNotify(`failed to create new blog`,true)
+        }
   
       }catch(exception) {
   
@@ -37,7 +43,7 @@ const CreateBlog = (props) => {
     return props.user !== null ?  (
       <div>
         
-        <h1>create New</h1>
+        <h3>Create New Blog</h3>
         <form onSubmit={requestCreate} onChange={inputHandel}>
           <label>Title :</label><input type = 'text' name='title'></input><br />
           <label>Author :</label>

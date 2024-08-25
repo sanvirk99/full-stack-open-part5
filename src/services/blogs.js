@@ -20,7 +20,7 @@ const create = async (newObj) => {
 
   const response = await axios.post(baseUrl, newObj, config)
 
-  return response.data
+  return response
 
 }
 
