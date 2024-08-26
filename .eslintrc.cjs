@@ -15,27 +15,28 @@ module.exports = {
   settings: { react: { version: '18.2' } },
   plugins: ['react-refresh'],
   rules: {
-    "indent": [
-        "error",
-        2  
-    ],
+    // "indent": [
+    //     "error",
+    //     2  
+    // ],
     "linebreak-style": [
         "error",
         "unix"
     ],
     "quotes": [
         "error",
-        "single"
+        "single",
+        { "allowTemplateLiterals": true }
     ],
     "semi": [
         "error",
         "never"
     ],
     "eqeqeq": "error",
-    "no-trailing-spaces": "error",
-    "object-curly-spacing": [
-        "error", "always"
-    ],
+    // "no-trailing-spaces": "error",
+    // "object-curly-spacing": [
+    //     "error", "always"
+    // ],
     "arrow-spacing": [
         "error", { "before": true, "after": true }
     ],

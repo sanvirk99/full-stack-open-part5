@@ -1,7 +1,9 @@
 
-import { useState, useEffect } from "react"
+import React , { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 
-const LoginForm = (props) => {
+
+const LoginForm = React.forwardRef((props,ref) => {
 
     const [username, setUsername] = useState('')  
     const [password, setPassword] = useState('')
@@ -36,7 +38,7 @@ const LoginForm = (props) => {
           
           <label>Password :</label>
           <input type='password' value={password} onChange={passChange} /><br/>
-          <button type="submit">Login</button>
+          <button type='submit'>Login</button>
         </div>
       </form>
       )}
@@ -44,7 +46,7 @@ const LoginForm = (props) => {
       {props.user !== null && (
         <div>
           <label>{props.user.name} logged in</label>
-          <button type="submit" onClick={requestLogout}>Logout</button>
+          <button type='submit' onClick={requestLogout}>Logout</button>
         </div>
       )}
       
@@ -52,5 +54,15 @@ const LoginForm = (props) => {
       </>
       
     )
-  }
+  })
+
+LoginForm.propTypes = {
+onLogin: PropTypes.func.isRequired,
+onLogout: PropTypes.func.isRequired,
+user: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.oneOf([null])
+])
+}
+
 export default LoginForm
