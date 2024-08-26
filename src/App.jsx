@@ -28,9 +28,10 @@ const App = () => {
 
   useEffect(() => { //this is not async do need to use then return promoise
 
-    blogService.getAll().then((blogs)=>{setBlogs(blogs)})
+    refresh()
     
   },[user])
+
 
 
   useEffect(()=>{
@@ -61,7 +62,14 @@ const App = () => {
   }
 
   const refresh = () => {
-    blogService.getAll().then((blogs)=>{setBlogs(blogs)})
+    blogService.getAll().then((blogs)=>{
+
+      const sorted=blogs.sort((a,b) => { return b.likes - a.likes})
+
+      setBlogs(sorted)
+
+
+    })
   }
 
   const loginAtempt = async (username, password) => {
@@ -102,7 +110,7 @@ const App = () => {
       <Notification message={msg} errorMsg={errorMsg}/>
       <LoginForm onLogin={loginAtempt} onLogout={logout} user={user}/>
       <CreateBlog user={user} refresh={refresh} onNotify={notify}/>
-      <Blogs user={user} blogs={blogs}/>
+      <Blogs user={user} blogs={blogs} refresh={refresh}/>
     </div>
   )
 }

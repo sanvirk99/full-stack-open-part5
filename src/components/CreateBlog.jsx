@@ -4,14 +4,17 @@ import blogService from '../services/blogs'
 const CreateBlog = (props) => {
 
     const blogTemplate ={
-      title : null,
-      author : null,
-      url: null
+      title : '',
+      author : '',
+      url: ''
       
     }
-  
+
+    const [visable,setVisable] = useState(false)
+
     const [blog,setBlog]=useState(blogTemplate)
-  
+
+
     const requestCreate= async (e) => {
       e.preventDefault()
   
@@ -19,6 +22,7 @@ const CreateBlog = (props) => {
         const res = await blogService.create(blog)
         if(res.status===201){
           props.onNotify(`a new blog ${blog.title} by ${blog.author}`,false)
+          setBlog(blogTemplate)
           props.refresh()
         }else{
           props.onNotify(`failed to create new blog`,true)
@@ -39,23 +43,54 @@ const CreateBlog = (props) => {
       setBlog({...blog,[name] : value})
       
     }
+
+    const newNote = (e) => {
+      setVisable(!visable)
+      setBlog(blogTemplate)
+    }
   
-    return props.user !== null ?  (
-      <div>
-        
-        <h3>Create New Blog</h3>
-        <form onSubmit={requestCreate} onChange={inputHandel}>
-          <label>Title :</label><input type = 'text' name='title'></input><br />
-          <label>Author :</label>
-          <input type = 'text' name='author'></input><br />
-          <label>url :</label>
-          <input type = 'text' name='url'></input><br />
-          <button type='submit'>create</button>
-        </form>
-  
-      </div>
+    return props.user !== null ?(
+     <Form  blog={blog}
+      requestCreate={requestCreate}
+      inputHandel={inputHandel}
+      onPress={newNote}
+      visable={visable}
+      />
     ) : <></>
-  
   }
-  
+
+const Form = (props) => {
+
+
+  if(props.visable){
+
+    return (
+      
+    <div>
+      
+      <h3>Create New Blog</h3>
+      <form onSubmit={props.requestCreate} onChange={props.inputHandel}>
+        <label>Title :</label><input type = 'text' name='title' value={props.blog.title} onChange={props.inputHandel}></input><br />
+        <label>Author :</label>
+        <input type = 'text' name='author' value={props.blog.author} onChange={props.inputHandel} ></input><br />
+        <label>url :</label>
+        <input type = 'text' name='url' value={props.blog.url} onChange={props.inputHandel}></input><br />
+        <button type='submit'>Create</button>
+      </form>
+    <button onClick={props.onPress}>Cancel</button>
+    </div>
+  )
+  }else{
+
+    return (
+      <button onClick={props.onPress}>create new blog</button>
+    )
+  }
+
+
+
+}  
+
+
 export default CreateBlog
+
