@@ -55,6 +55,8 @@ const LoginForm = React.forwardRef((props,ref) => {
       
     )
   })
+  
+LoginForm.displayName = 'LoginForm'
 
 LoginForm.propTypes = {
 onLogin: PropTypes.func.isRequired,

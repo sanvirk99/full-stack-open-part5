@@ -47,7 +47,7 @@ const CreateBlog = (props) => {
     const newNote = (e) => {
       setVisable(!visable)
       setBlog(blogTemplate)
-    }
+    } 
   
     return props.user !== null ?(
      <Form  blog={blog}
@@ -92,5 +92,5 @@ const Form = (props) => {
 }  
 
 
-export default CreateBlog
+export default {CreateBlog,Form}
 

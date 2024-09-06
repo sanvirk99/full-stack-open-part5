@@ -16,15 +16,6 @@ const Blog = ({ blog, refresh, user }) => {
     setVisible(!visible)
   }
 
-  return (
-  <div style={blogStyle}>
-    
-    {visible ? <BlogDetails blog={blog} onHide={viewDetail} refresh={refresh} user={user}/> : <> {blog.title} {blog.author} <button onClick={viewDetail}>View</button> </>}
-  </div> ) 
-}
-
-const BlogDetails = ({blog,onHide,refresh, user}) => {
-
   const update = async () => {
 
     const newObject = {...blog,'user' : blog.user.id, 'likes': blog.likes+1}
@@ -32,21 +23,29 @@ const BlogDetails = ({blog,onHide,refresh, user}) => {
     if(res.status===204){
       refresh()
     }
-
   }
 
-  
-  const remove = async () => {
-    
-
+  const remove = async () => {    
+    if(!window.confirm(`Remove blog ${blog.title} by ${blog.author}`)){
+      return
+    }
     const res = await blogServices.remove(blog)
-
     if(res.status===204){
       refresh()
     }
-    
   }
 
+  return (
+  <div style={blogStyle} className='blog'>
+    
+    {visible ? <BlogDetails blog={blog} onHide={viewDetail} user={user} remove={remove} update={update}/> : <> {blog.title} {blog.author} <button onClick={viewDetail}>View</button> </>}
+  </div> ) 
+}
+
+const BlogDetails = ({blog,onHide,user , update , remove}) => {
+
+
+  //problem matic for test
   return (
 
     <div>
@@ -64,4 +63,6 @@ const BlogDetails = ({blog,onHide,refresh, user}) => {
 
 }
 
-export default Blog
+export default {Blog, BlogDetails};
+
+

@@ -1,5 +1,6 @@
 import { useState,useEffect } from 'react'
-import Blog from './Blog'
+import BlogComponets from './Blog'
+const {Blog, BlogDetails} = BlogComponets
 import blogService from '../services/blogs'
 
 const Blogs = (props) => {
