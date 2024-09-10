@@ -36,7 +36,7 @@ const Blog = ({ blog, refresh, user }) => {
   }
 
   return (
-  <div style={blogStyle} className='blog'>
+  <div style={blogStyle} className='blog' data-testid='blog'>
     
     {visible ? <BlogDetails blog={blog} onHide={viewDetail} user={user} remove={remove} update={update}/> : <> {blog.title} {blog.author} <button onClick={viewDetail}>View</button> </>}
   </div> ) 
@@ -48,11 +48,12 @@ const BlogDetails = ({blog,onHide,user , update , remove}) => {
   //problem matic for test
   return (
 
-    <div>
-      <li>{blog.title} {blog.author} <button onClick={onHide}>Hide</button></li> 
-      <li>{blog.url} </li>
-      <li>{blog.likes} <button onClick={update}>like</button></li>
-      {blog.user && <li>{blog.user.name}</li>} 
+    <div >
+      <button onClick={onHide}>Hide</button> <br/>
+      {blog.title} {blog.author} 
+      {blog.url}<br/>
+      <span data-testid='like'>{blog.likes}</span> <button onClick={update}>like</button><br/>
+      {blog.user && blog.user.name} <br/>
       {blog.user.name === user.name && <button onClick={remove}>Remove</button>}
 
     </div>

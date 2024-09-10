@@ -70,11 +70,11 @@ const Form = (props) => {
       
       <h3>Create New Blog</h3>
       <form onSubmit={props.requestCreate} onChange={props.inputHandel}>
-        <label>Title :</label><input type = 'text' name='title' value={props.blog.title} onChange={props.inputHandel}></input><br />
+        <label>Title :</label><input type = 'text' name='title' data-testid='title' value={props.blog.title} onChange={props.inputHandel}></input><br />
         <label>Author :</label>
-        <input type = 'text' name='author' value={props.blog.author} onChange={props.inputHandel} ></input><br />
+        <input type = 'text' name='author' data-testid='author' value={props.blog.author} onChange={props.inputHandel} ></input><br />
         <label>url :</label>
-        <input type = 'text' name='url' value={props.blog.url} onChange={props.inputHandel}></input><br />
+        <input type = 'text' name='url' data-testid='url' value={props.blog.url} onChange={props.inputHandel}></input><br />
         <button type='submit'>Create</button>
       </form>
     <button onClick={props.onPress}>Cancel</button>

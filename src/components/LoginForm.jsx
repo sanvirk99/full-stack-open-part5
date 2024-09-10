@@ -34,10 +34,10 @@ const LoginForm = React.forwardRef((props,ref) => {
         <form onSubmit={requestLogin}>
         <div>
           <label>Username :</label>
-          <input type='text' value={username} onChange={userChange} />
+          <input data-testid='username' type='text' value={username} onChange={userChange} />
           
           <label>Password :</label>
-          <input type='password' value={password} onChange={passChange} /><br/>
+          <input data-testid='password' type='password' value={password} onChange={passChange} /><br/>
           <button type='submit'>Login</button>
         </div>
       </form>

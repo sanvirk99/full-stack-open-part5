@@ -38,7 +38,7 @@ const App = () => {
     //anytime msd
     setTimeout( () => {
       setMsg(null)
-    },1500)
+    },2500)
 
   },[msg])
 
@@ -46,7 +46,7 @@ const App = () => {
 
     setTimeout(() => {
       setErrorMsg(null)
-    },1500)
+    },2500)
   },[errorMsg])
 
   const notify=(msg,isError) => {
