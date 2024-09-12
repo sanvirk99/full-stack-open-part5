@@ -10,12 +10,12 @@ const Blogs = (props) => {
         <div>
           <h3>Blogs list</h3>
           <ol>
-            <li>
+            
 
               {props.blogs.map(blog => (
-                <Blog key={blog.id} blog={blog} refresh={props.refresh} user={props.user} />
+                <li><Blog key={blog.id} blog={blog} refresh={props.refresh} user={props.user} /></li>
               ))}
-            </li>
+            
 
 
           </ol>

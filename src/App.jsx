@@ -38,7 +38,7 @@ const App = () => {
     //anytime msd
     setTimeout( () => {
       setMsg(null)
-    },2500)
+    },2000)
 
   },[msg])
 
